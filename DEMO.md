@@ -1,4 +1,4 @@
-# elTahi Demo 0.1
+# elTahi Demo 0.2
 
 Installable Android demo of https://www.eltahi.com with the elTahi name and a
 green (#b8d057), rotated chef's knife on white. The icon is an editable vector,
@@ -7,6 +7,10 @@ with PNG launcher assets generated for Android and iOS.
 ## What this demo does
 
 - Opens the live mobile website in the system WebView.
+- Plays a green-knife launch intro that splits the original elTahi wordmark,
+  then reveals the website. The same Flutter animation runs on Android and iOS.
+- Loads the website behind the intro, waits for readiness or the Retry screen,
+  and respects the device's Reduce Motion setting. It does not replay on navigation.
 - Uses the website's existing login and session cookies.
 - Keeps website navigation inside the app; opens approved external links outside.
 - Supports Android back navigation, a loading indicator and a connection-error Retry screen.
@@ -41,7 +45,8 @@ On this machine, Gradle's online resolution stalled. The successful build used
 the cached dependencies via `android/gradlew.bat --offline assembleRelease
 -Ptarget-platform=android-arm,android-arm64,android-x64 -Ptarget=lib/main.dart`.
 
-Verified: Flutter static analysis, two URL-policy tests, release APK signing,
+Verified: Flutter static analysis, URL-policy and launch-intro widget tests,
+three rendered animation frames, release APK signing,
 installation and the live sign-in page in an Android 14 emulator. Authenticated
 posting, uploads and real-device login have not been tested with a user account.
 

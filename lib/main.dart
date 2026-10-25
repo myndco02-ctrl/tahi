@@ -9,6 +9,7 @@ import 'package:webview_flutter_android/webview_flutter_android.dart';
 import 'package:webview_flutter_wkwebview/webview_flutter_wkwebview.dart';
 
 import 'navigation_policy.dart';
+import 'launch_intro.dart';
 
 const brandGreen = Color(0xFFB8D057);
 
@@ -52,6 +53,8 @@ class _WebsiteScreenState extends State<WebsiteScreen> {
   Timer? _timeout;
   bool _failed = false;
   bool _timedOut = false;
+  bool _showIntro = true;
+  bool _initialPageReady = false;
   int _progress = 0;
   String _retryUrl = 'https://www.eltahi.com/';
 
@@ -105,10 +108,13 @@ class _WebsiteScreenState extends State<WebsiteScreen> {
           },
           onPageFinished: (_) {
             _timeout?.cancel();
-            if (mounted && _timedOut) {
+            if (mounted) {
               setState(() {
-                _failed = false;
-                _timedOut = false;
+                _initialPageReady = true;
+                if (_timedOut) {
+                  _failed = false;
+                  _timedOut = false;
+                }
               });
             }
           },
@@ -230,6 +236,15 @@ class _WebsiteScreenState extends State<WebsiteScreen> {
                         ),
                       ],
                     ),
+                  ),
+                ),
+              ),
+            if (_showIntro)
+              Positioned.fill(
+                child: BlockSemantics(
+                  child: LaunchIntro(
+                    ready: _initialPageReady || _failed,
+                    onComplete: () => setState(() => _showIntro = false),
                   ),
                 ),
               ),

@@ -12,7 +12,7 @@ workflows:
         script: flutter pub get
       - name: Check Dart code
         script: flutter analyze
-      - name: Test navigation rules
+      - name: Test navigation and launch intro
         script: flutter test
       - name: Prepare iOS project
         script: flutter build ios --release --no-codesign --config-only
