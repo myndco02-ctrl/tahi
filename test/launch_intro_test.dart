@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:ui' as ui;
 
 import 'package:eltahi_demo/launch_intro.dart';
@@ -26,6 +27,33 @@ Widget host({
 );
 
 void main() {
+  testWidgets('waits for the native splash to release the first frame', (
+    tester,
+  ) async {
+    final visible = Completer<void>();
+    var completed = 0;
+    await tester.pumpWidget(
+      MaterialApp(
+        home: Scaffold(
+          body: LaunchIntro(
+            ready: true,
+            startAfter: visible.future,
+            onComplete: () => completed++,
+          ),
+        ),
+      ),
+    );
+    await loadArtwork(tester);
+    await tester.pump(const Duration(seconds: 4));
+    final paint = tester.widget<CustomPaint>(
+      find.byKey(const ValueKey('launch-artwork')),
+    );
+    expect((paint.painter! as LaunchArtwork).progress, 0);
+    expect(completed, 0);
+    visible.complete();
+    await tester.pumpAndSettle();
+    expect(completed, 1);
+  });
   for (final size in [const Size(320, 568), const Size(844, 390)]) {
     testWidgets('fits portrait and landscape $size', (tester) async {
       tester.view.physicalSize = size;

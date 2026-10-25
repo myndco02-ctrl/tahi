@@ -5,10 +5,16 @@ import 'package:flutter/services.dart';
 
 /// A once-per-launch cover; the WebView loads underneath it.
 class LaunchIntro extends StatefulWidget {
-  const LaunchIntro({super.key, required this.ready, required this.onComplete});
+  const LaunchIntro({
+    super.key,
+    required this.ready,
+    required this.onComplete,
+    this.startAfter,
+  });
 
   final bool ready;
   final VoidCallback onComplete;
+  final Future<void>? startAfter;
 
   @override
   State<LaunchIntro> createState() => _LaunchIntroState();
@@ -55,7 +61,9 @@ class _LaunchIntroState extends State<LaunchIntro>
       // The wordmark fallback still lets the site open if asset decoding fails.
       if (!mounted) return;
     }
-    _cut.forward();
+    // Android's native launch screen can cover early Flutter animation frames.
+    await widget.startAfter;
+    if (mounted) _cut.forward();
   }
 
   @override

@@ -243,6 +243,8 @@ class _WebsiteScreenState extends State<WebsiteScreen> {
               Positioned.fill(
                 child: BlockSemantics(
                   child: LaunchIntro(
+                    startAfter:
+                        WidgetsBinding.instance.waitUntilFirstFrameRasterized,
                     ready: _initialPageReady || _failed,
                     onComplete: () => setState(() => _showIntro = false),
                   ),
