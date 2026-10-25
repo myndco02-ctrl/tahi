@@ -42,3 +42,4 @@ workflows:
     artifacts:
       - dist/elTahi-demo-unsigned.ipa
       - /tmp/xcodebuild_logs/*.log
+      - test/failures/**

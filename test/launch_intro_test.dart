@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+import 'support/launch_golden_comparator.dart';
+
 Future<void> loadArtwork(WidgetTester tester) async {
   await tester.runAsync(
     () => Future<void>.delayed(const Duration(milliseconds: 100)),
@@ -27,6 +29,16 @@ Widget host({
 );
 
 void main() {
+  final originalComparator = goldenFileComparator;
+  setUpAll(() {
+    if (originalComparator is LocalFileComparator) {
+      goldenFileComparator = LaunchGoldenComparator(
+        originalComparator.basedir.resolve('launch_intro_test.dart'),
+      );
+    }
+  });
+  tearDownAll(() => goldenFileComparator = originalComparator);
+
   testWidgets('waits for the native splash to release the first frame', (
     tester,
   ) async {
