@@ -12,7 +12,7 @@ workflows:
         script: flutter pub get
       - name: Check Dart code
         script: flutter analyze
-      - name: Test navigation and launch intro
+      - name: Test navigation and app dialogs
         script: flutter test
       - name: Prepare iOS project
         script: flutter build ios --release --no-codesign --config-only
@@ -42,4 +42,3 @@ workflows:
     artifacts:
       - dist/elTahi-demo-unsigned.ipa
       - /tmp/xcodebuild_logs/*.log
-      - test/failures/**

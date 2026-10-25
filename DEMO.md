@@ -46,8 +46,9 @@ On this machine, Gradle's online resolution stalled. The successful build used
 the cached dependencies via `android/gradlew.bat --offline assembleRelease
 -Ptarget-platform=android-arm,android-arm64,android-x64 -Ptarget=lib/main.dart`.
 
-Verification covers Flutter static analysis, URL-policy and app-chrome widget tests.
-The previous release was installed in an Android 14 emulator. Authenticated
+Verified: Flutter static analysis, 10 URL-policy and app-chrome widget tests,
+release APK signing, and version 0.3 launching the live sign-in page in an Android
+14 emulator without the intro. Authenticated
 posting, uploads and real-device login have not been tested with a user account.
 
 ## iOS / Sideloadly
